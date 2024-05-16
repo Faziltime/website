@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .picker {
+            display: flex;
+        }
+        .picker select {
+            margin-right: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="picker">
+        <select id="years"></select>
+        <select id="months"></select>
+        <select id="days"></select>
+    </div>
+
+    <script>
+        const yearsSelect = document.getElementById('years');
+        const monthsSelect = document.getElementById('months');
+        const daysSelect = document.getElementById('days');
+
+        // Populate years
+        for (let i = new Date().getFullYear(); i >= 1900; i--) {
+            const option = document.createElement('option');
+            option.textContent = i;
+            yearsSelect.appendChild(option);
+        }
+
+        // Populate months
+        for (let i = 1; i <= 12; i++) {
+            const option = document.createElement('option');
+            option.textContent = i < 10 ? '0' + i : i;
+            monthsSelect.appendChild(option);
+        }
+
+        // Function to populate days based on selected year and month
+        function populateDays() {
+            const year = parseInt(yearsSelect.value);
+            const month = parseInt(monthsSelect.value);
+            const daysInMonth = new Date(year, month, 0).getDate();
+
+            // Clear existing options
+            daysSelect.innerHTML = '';
+
+            // Populate days
+            for (let i = 1; i <= daysInMonth; i++) {
+                const option = document.createElement('option');
+                option.textContent = i < 10 ? '0' + i : i;
+                daysSelect.appendChild(option);
+            }
+        }
+
+        // Populate days when year or month changes
+        yearsSelect.addEventListener('change', populateDays);
+        monthsSelect.addEventListener('change', populateDays);
+
+        // Initial population of days
+        populateDays();
+    </script>
+</body>
+</html>
